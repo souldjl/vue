@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="7da8fa2c-c6b2-4e2e-8f24-047ae9c28776" name="devht" url="http://dev.hteacher.net">
+        <fileTransfer host="dev.hteacher.net" port="1677">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" />
+          </advancedOptions>
+          <option name="port" value="1677" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

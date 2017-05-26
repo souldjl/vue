@@ -1,0 +1,96 @@
+{
+  "ecode": "0",
+  "emsg": "ok",
+  "data":[
+    {
+      "id": "1",
+      "planlist_id": "1",
+      "title": "title1",
+      "date": "2017-04-22",
+      "start_time": "08:30",
+      "end_time": "09:00",
+      "room_id": "111",
+      "secret": "111"
+    },
+    {
+      "id": "2",
+      "planlist_id": "1",
+      "title": "title2",
+      "date": "2017-04-22",
+      "start_time": "09:00",
+      "end_time": "09:30",
+      "room_id": "22222",
+      "secret": "22222"
+    },
+    {
+      "id": "3",
+      "planlist_id": "2",
+      "title": "title3",
+      "date": "2017-04-23",
+      "start_time": "09:30",
+      "end_time": "10:00",
+      "room_id": "33333",
+      "secret": "33333"
+    },
+    {
+      "id": "4",
+      "planlist_id": "2",
+      "title": "title4",
+      "date": "2017-04-23",
+      "start_time": "10:00",
+      "end_time": "11:00",
+      "room_id": "44444",
+      "secret": "444444"
+    },
+    {
+      "id": "4",
+      "planlist_id": "3",
+      "title": "title4",
+      "date": "2017-04-23",
+      "start_time": "10:00",
+      "end_time": "11:00",
+      "room_id": "44444",
+      "secret": "444444"
+    },
+    {
+      "id": "4",
+      "planlist_id": "4",
+      "title": "title4",
+      "date": "2017-04-24",
+      "start_time": "10:00",
+      "end_time": "11:00",
+      "room_id": "44444",
+      "secret": "444444"
+    },
+    {
+      "id": "4",
+      "planlist_id": "5",
+      "title": "title4",
+      "date": "2017-04-25",
+      "start_time": "10:00",
+      "end_time": "11:00",
+      "room_id": "44444",
+      "secret": "444444"
+    },
+    {
+      "id": "4",
+      "planlist_id": "6",
+      "title": "title4",
+      "date": "2017-04-26",
+      "start_time": "10:00",
+      "end_time": "11:00",
+      "room_id": "44444",
+      "secret": "444444"
+    },
+    {
+      "id": "4",
+      "planlist_id": "7",
+      "title": "title4",
+      "date": "2017-04-27",
+      "start_time": "10:00",
+      "end_time": "11:00",
+      "room_id": "44444",
+      "secret": "444444"
+    }
+  ]
+}

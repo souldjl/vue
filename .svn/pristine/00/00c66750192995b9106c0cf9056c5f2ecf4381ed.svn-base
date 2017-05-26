@@ -1,0 +1,186 @@
+<?php
+
+function getDay($strDatetime)//将时间串2008-9-14 12:00:09变为2008-9-14
+{
+	if($strDatetime != "")
+	{
+		$dateArr = explode(" ",$strDatetime);
+		if(sizeof($dateArr) >= 1)
+			$strDatetime = $dateArr[0];
+		else
+			$strDatetime = '';
+	}
+	return $strDatetime;
+}
+
+	function request($str)
+	{
+	  $newStr="";
+	  if(isset($_GET[$str]))
+		{
+	    $newStr=str_replace('\'',"",$_GET[$str]);
+		  if ($newStr==null)
+		  {
+		    $newStr="";
+		  }
+		}
+		$newStr=strip_tags($newStr);
+		return $newStr;
+	}
+	
+  function requestForm($str)
+	{
+	  $newStr="";
+	  if(isset($_POST[$str]))
+		{
+	    $newStr=str_replace('\'',"",$_POST[$str]);
+		  if ($newStr==null)
+		  {
+		    $newStr="";
+		  }
+		}
+		$newStr=strip_tags($newStr);
+		return $newStr;
+	}
+  
+	function requestGet($str)
+	{
+	  $newStr="";
+	  if(isset($_GET[$str]))
+		{
+		  $newStr=$_GET[$str];
+	    //$newStr=str_replace("\'","\'\'",$_GET[$str]);
+		 //$newStr=addslashes($newStr);
+		 $newStr=str_replace("'","''",$newStr);
+		  if ($newStr==null)
+		  {
+		    $newStr="";
+		  }
+		}
+		$newStr=strip_tags($newStr);
+		return iconv("UTF-8","GB2312",$newStr);
+	}
+	
+	 function requestPost($str)
+	{
+	  $newStr="";
+		if(isset($_POST[$str]))
+		{
+		  $newStr=$_POST[$str];
+			//$newStr=str_replace("'","\'\'",$_POST[$str]);
+			//$newStr=addslashes($newStr);
+			$newStr=str_replace("'","''",$newStr);
+			if ($newStr==null)
+			{
+				$newStr="";
+			}
+		}
+		$newStr=strip_tags($newStr);
+		return iconv("UTF-8","GB2312",$newStr);
+	}
+	
+	
+ function StrLeft($str,$start,$len)
+ {     
+   $tmpstr=""; 
+   $strlen= $start+$len;
+   for($i = 0;$i<$strlen;$i++) 
+   {         
+    if(ord(substr($str,$i,1))>'0xa0') 
+    { 
+      $tmpstr.= substr($str,$i,2);
+      $i++;
+    }
+    else 
+      $tmpstr .= substr($str,$i,1);  
+   }    
+
+  return $tmpstr;
+	}
+	
+	function gb_str($str)
+  {
+    return iconv("UTF-8","GB2312",$str);
+  }
+
+    function utf8_str($str)
+  {
+    return iconv("GB2312","UTF-8",$str);
+  }
+
+  function cn_substr($str,$slen,$startdd=0)
+{
+	global $cfg_soft_lang;
+	if($cfg_soft_lang=='utf-8')
+	{
+		return cn_substr_utf8($str,$slen,$startdd);
+	}
+	$restr = '';
+	$c = '';
+	$str_len = strlen($str);
+	if($str_len < $startdd+1)
+	{
+		return '';
+	}
+	if($str_len < $startdd + $slen || $slen==0)
+	{
+		$slen = $str_len - $startdd;
+	}
+	$enddd = $startdd + $slen - 1;
+	for($i=0;$i<$str_len;$i++)
+	{
+		if($startdd==0)
+		{
+			$restr .= $c;
+		}
+		else if($i > $startdd)
+		{
+			$restr .= $c;
+		}
+
+		if(ord($str[$i])>0x80)
+		{
+			if($str_len>$i+1)
+			{
+				$c = $str[$i].$str[$i+1];
+			}
+			$i++;
+		}
+		else
+		{
+			$c = $str[$i];
+		}
+
+		if($i >= $enddd)
+		{
+			if(strlen($restr)+strlen($c)>$slen)
+			{
+				break;
+			}
+			else
+			{
+				$restr .= $c;
+				break;
+			}
+		}
+	}
+	return $restr;
+}
+
+  function tesidsinject($str)
+  {
+	if($str!="")  
+	{
+	  $strarr=explode(",",$str);
+	  $strarrcount=count($strarr);
+	  for($i=0;$i<$strarrcount;$i++)
+	  {
+		  if(!is_numeric($strarr[$i]))
+		  {
+			  return true;
+		  }
+	  }
+	}
+	
+	return false;
+  }

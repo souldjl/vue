@@ -1,0 +1,111 @@
+<?php
+	
+class Database
+{
+	private static $dbLink;           //连接句柄 
+	private $result;                      //查询句柄 
+	private $insId;                       //Insert()成功返回AUTO_INCREMENT列的值
+	private $rows;                        //返回数据数组
+	private $numRows;                     //返回数据数目
+	function __construct($serverName='221.122.54.134,12933',$uid='mtq7kw',$pwd='ylxdmh4p_^8locc8jmtu',$Database='HTOLMain'){
+		$this->Database($serverName,$uid,$pwd,$Database);
+		// var_dump(self::$dbLink);die;
+	}
+
+    public function Database($serverName,$uid,$pwd,$Database){
+        if(empty(self::$dbLink)){
+            $connectionInfo = array("UID"=>$uid,"PWD"=>$pwd,"Database"=>$Database);
+            self::$dbLink = sqlsrv_connect( $serverName,$connectionInfo);
+        }
+    }
+
+	
+	/*SQL:Select() 返回为false无结果*/
+	function select($sql,$option){
+		if (!empty($option)) {
+				foreach ($option as $k => $v) {
+					$sql = preg_replace('/\:'.$k.'\w*/',addslashes($v),$sql);
+				}
+			}	
+
+		$this->result = sqlsrv_query(self::$dbLink,$sql);
+		if( $this->result !== false ) {
+			$data['ecode'] = 0;
+			$data['emsg'] = 'ok';
+			while($tempRows=sqlsrv_fetch_array($this->result,SQLSRV_FETCH_ASSOC)){ 
+				$tempRows['date'] = date('Y-m-d',$tempRows['date']);
+				$data['data'][] = $tempRows;
+			}
+		}else{
+				$errors = sqlsrv_errors();
+				$data['ecode'] = 1;
+				$data['emsg'] = $errors[0]['message'];
+				$data['data'] = array();
+		}
+		return $data;
+	}
+
+
+	function execute($sql,$data=array()){
+		if (!empty($data)) {
+				foreach ($data as $k => $v) {
+					$sql = preg_replace('/\:'.$k.'\w*/',addslashes($v),$sql);
+				}
+			}	
+
+			// var_dump($sql);die;
+		$this->result=sqlsrv_query(self::$dbLink,$sql);	
+		if ($this->result !== false) {
+			$res['ecode'] = 0;
+			$res['emsg'] = 'ok';
+			$res['data'] = $data;
+		}else{
+			$errors = sqlsrv_errors();
+			$res['ecode'] = 1;
+			$res['emsg'] = $errors[0]['message'];
+		}
+		return $res;
+	}
+
+	/*SQL:Insert()*/
+	function get_lastid(){
+		$tempRows=sqlsrv_fetch_array(sqlsrv_query(self::$dbLink,'select @@identity AS id'),SQLSRV_FETCH_ASSOC);
+		return $tempRows;
+	}
+
+	function base_select($sql){
+		$this->result = sqlsrv_query(self::$dbLink,$sql);
+		$data = array();
+		if( $this->result !== false ) {
+			unset($this->rows);
+			while($tempRows=sqlsrv_fetch_array($this->result,SQLSRV_FETCH_ASSOC)){ 
+				foreach ($tempRows as $k => $v) {
+					$tempRows[$k] = iconv("GB2312//IGNORE","UTF-8",$v);
+				}
+				$data[] = $tempRows;
+			}
+		}
+		return $data;
+	}
+
+
+		function split_select($sql){
+		$this->result = sqlsrv_query(self::$dbLink,$sql);
+		$data = array();
+		if( $this->result !== false ) {
+			unset($this->rows);
+			while($tempRows=sqlsrv_fetch_array($this->result,SQLSRV_FETCH_ASSOC)){ 
+				foreach ($tempRows as $k => $v) {
+					$tempRows[$k] = iconv("GB2312//IGNORE","UTF-8",$v);
+					$code = $tempRows['code'];
+					$address = $tempRows['address'];
+				}
+				$data[] = array($code=>$address);
+			}
+		}
+		return $data;
+	}
+
+}
+	
+?>

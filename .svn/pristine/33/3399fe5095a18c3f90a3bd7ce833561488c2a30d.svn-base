@@ -1,0 +1,51 @@
+/**
+ * Created by shaolei on 2017/4/21.
+ */
+import WebTools from "../libs/WebTools"
+
+const config = {
+  domain: "http://dev.hteacher.net/tools/live_plan",
+  apis: {
+    getPlan: "/static/plans.json",
+    createPlan: "/create_plan.php",
+    modifyPlan: "/modify_plan.php",
+  }
+
+}
+
+export default {
+  getPlans() {
+    const url = config.apis.getPlan
+    return WebTools.getData( { url } )
+  },
+  createPlan( form ) {
+    const url = config.domain + config.apis.createPlan
+    return WebTools.postData({
+      url,
+      data: {
+        title: form.title,
+        date: form.date,
+        start_time: form.startTime,
+        end_time: form.endTime,
+        room_id: form.roomId,
+        secret: form.secret,
+      }
+    })
+  },
+  modifyPlan( form ) {
+    const url = config.domain + config.apis.modifyPlan
+    return WebTools.postData({
+      url,
+      data: {
+        title: form.title,
+        date: form.date,
+        start_time: form.startTime,
+        end_time: form.endTime,
+        room_id: form.roomId,
+        secret: form.secret,
+      }
+    })
+  },
+
+}
+

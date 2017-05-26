@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gbk">
+    <title>小蜜蜂</title>
+    <meta name="description" content="华图教师网是华图教育旗下重要品牌,提供教师招聘考试(含特岗)、国考教师资格证考试公告、报名时间、报名入口、面试信息、真题资料、辅导培训等,教师考试信息尽在华图教师网." />
+<meta name="keywords" content="教师,教师招聘,教师资格证考试,教师考试,教师网,华图" />
+    <link href="css/index.css" rel="stylesheet" type="text/css" />
+    <link href="css/index_sx.css" rel="stylesheet" type="text/css" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>    
+</head>
+<body>
+ <!--新增直播体验区开始-->
+<div class="zbty">
+    <h2>直播体验区</h2>
+    <div class="livebox">
+        <div class="videobox">
+            <!--直播头像 -->
+            <div class="livetx">
+            <?php if(isset($_GET['liveUrl']) && isset($_GET['liveType'])){ ?>
+                <?php if($_GET['liveType'] == 'live'){ ?>
+                    <gs:video-live  site="htexam.gensee.com" ctx="webcast" ownerid="<?php echo $_GET['liveUrl']?>"  uname="<?php echo '游客'.rand(1000,9999)?>" group="videogroup" bar="false" py="1" k="" authcode="123456" bgimg="http://live.huatu.com/Public/images/tx.jpg"/> 
+               <?php }else if($_GET['liveType'] == 'vod'){ ?>
+                    <gs:video-vod  site="htexam.gensee.com" ctx="webcast" ownerid="<?php echo $_GET['liveUrl']?>"  uname="<?php echo '游客'.rand(1000,9999)?>" group="videogroup" bar="false" py="1" k="" authcode="123456" bgimg="http://live.huatu.com/Public/images/tx.jpg"/> 
+                <?php } ?>
+                    </div>
+                    <!-- ppt-->
+                    <div class="liveppt"> 
+                        <div id="docComponent" style="height: 100%;">      
+                            <gs:doc site="htexam.gensee.com" ownerid="<?php echo $_GET['liveUrl']?>" ctx="webcast" group="videogroup"/>               
+                        </div>
+                    </div>
+            <?php }else{ 
+                //include "./jsonback.php"; ?>
+                    <gs:video-live  site="htexam.gensee.com" ctx="webcast" ownerid="<?php /*echo getOne()*/?>"  uname="<?php echo '游客'.rand(1000,9999)?>" group="videogroup" bar="false" py="1" k="" authcode="123456" bgimg="http://live.huatu.com/Public/images/tx.jpg"/>
+                    </div>
+                    <!-- ppt-->
+                    <div class="liveppt"> 
+                        <div id="docComponent" style="height: 100%;">      
+                            <gs:doc site="htexam.gensee.com" ownerid="<?php /*echo getOne()*/?>" ctx="webcast" group="videogroup"/>
+                        </div>
+                    </div>
+            <?php } ?>
+
+
+
+                                                     
+            <!--二维码扫码关注修改前-->
+           <!-- <div class="smgz">
+                <h3>快来扫一扫或<br>搜索公众号~</h3>
+                <div style="left:153px;">
+                    <img src="images/ewm_wx.jpg" alt="教师网" />
+                    <span>微信公众号：htjiaoshi</span>
+                </div>
+                <div style="left:350px;">
+                    <img src="images/ewm_qq.jpg" alt="教师网" />
+                    <span><a href="#" target="_blank">QQ群：一键加群</a></span>
+                </div>
+            </div>-->
+        <!--二维码扫码关注修改后-->
+        <div class="smgz">
+            <div class="wx">
+                <img src="images/ewm_wx.jpg" alt="教师网">
+                <p>微信公众号：htjiaoshi</p>
+                <span>扫一扫</span>
+            </div>
+            <div class="qqun">
+                <p>资格证【笔试】QQ群号：237755640 <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=6d85d45b95d1509cb84c63d1ca238ff5bdb9812bc7f5dad5adf33933f99e187a">一键加群</a></p>
+                <p>资格证【面试】QQ群号：542473319 <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=01a38daf59eec9ba59a625fadfa148be7592007a9276ad905b235109bbd094bb">一键加群</a>
+                </p>
+                <p>教师招聘【笔试】QQ群号：533618594 <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=7a9406cb3467d5bd150b4e2af7ee137a5b63ab08823a79c9b0d1f8f9ff145683">一键加群</a></p>
+                <p>教师招聘【面试】QQ群号：573832165 <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=eaaf5c474f23373aecc895b9e6fa5cdeaecc105ed30a60522818567e8f492472">一键加群</a>
+                </p>
+            </div>
+        </div>
+            <!--咨询客服--> 
+            <div class="zxkf">
+                <a href="javascript:void(0)">咨询客服</a>
+            </div>
+            <!--对话列表-->
+            <div id="jq_boxRigList" class="talk_list">
+                <ul>
+
+                </ul> 
+             </div>
+             <!--对话输入框-->
+             <div class="inputbox">
+                <form>
+                    <div id="textarea" class="test_box" contentEditable='true' placeholder="听课别闲着，跟老师互动哦～"></div>
+                    <input id="chat-submit" class="plbtn" type="button" value="发送" />
+                </form>
+             </div>     
+        </div>
+        <!--右侧直播列表-->
+        <div class="listwrap">
+            <h3>今日直播</h3>
+            <div class="livelist">
+                <ul> 
+<!--                     直播已结束over_zb           
+<li class="over_zb">
+    <p>教综精讲1—心理健康教育、学习心理健康教育、学习</p>
+    <span><em>19:00</em>-21:00</span> 
+    <a href="#">观看录播</a>     
+</li>
+正在播放的直播on_zb
+<li class="on_zb">
+    <p>教综精讲2—心理健康教育、学习心理健康教育、学习</p>
+    <span><em>19:00</em>-21:00</span> 
+    <a href="#">正在直播</a>     
+</li>
+未播放的直播
+<li class="zbing">
+    <p>教综精讲3—心理健康教育、学习心理健康教育、学习</p>
+    <span><em>19:00</em>-21:00</span> 
+    <a href="#">正在直播</a>     
+</li>
+还未开始的直播
+<li class="no_zb">
+    <p>教综精讲4—心理健康教育、学习心理健康教育、学习</p>
+    <span><em>19:00</em>-21:00</span> 
+    <a href="#">马上开始</a>     
+</li>
+<li class="no_zb">
+    <p>教综精讲4—心理健康教育、学习心理健康教育、学习</p>
+    <span><em>19:00</em>-21:00</span> 
+    <a href="#">马上开始</a>     
+</li>
+<li class="no_zb">
+    <p>教综精讲4—心理健康教育、学习心理健康教育、学习</p>
+    <span><em>19:00</em>-21:00</span> 
+    <a href="#">马上开始</a>     
+</li>
+<li class="no_zb">
+    <p>教综精讲4—心理健康教育、学习心理健康教育、学习</p>
+    <span><em>19:00</em>-21:00</span> 
+    <a href="#">马上开始</a>     
+</li>
+<li class="no_zb">
+    <p>教综精讲4—心理健康教育、学习心理健康教育、学习</p>
+    <span><em>19:00</em>-21:00</span> 
+    <a href="#">马上开始</a>     
+</li><li class="no_zb">
+    <p>教综精讲4—心理健康教育、学习心理健康教育、学习</p>
+    <span><em>19:00</em>-21:00</span> 
+    <a href="#">马上开始</a>     
+</li><li class="no_zb">
+    <p>教综精讲4—心理健康教育、学习心理健康教育、学习</p>
+    <span><em>19:00</em>-21:00</span> 
+    <a href="#">马上开始</a>     
+</li>
+<li class="no_zb">
+    <p>教综精讲4—心理健康教育、学习心理健康教育、学习</p>
+    <span><em>19:00</em>-21:00</span> 
+    <a href="#">马上开始</a>     
+</li>
+<li class="no_zb">
+    <p>教综精讲4—心理健康教育、学习心理健康教育、学习</p>
+    <span><em>19:00</em>-21:00</span> 
+    <a href="#">马上开始</a>     
+</li> -->
+                </ul>
+            </div>
+            <div class="vidbtn">
+                <span class="vid_prev"></span>
+                <span class="vid_next"></span>
+            </div>    
+        </div>
+    </div> 
+</div>   
+<!--新增直播体验区结束-->
+
+
+</body>
+</html>
+<script type="text/javascript" src="http://static.gensee.com/webcast/static/sdk/js/gssdk.js"></script>
+<script type="text/javascript">var channel = GS.createChannel("videogroup");</script>
+<script type="text/javascript" src="./js/live.js"></script>
+<script>
+$(function(){       
+     var nums=0;
+    $('.vid_next').on('click',function(event) {     
+     var ns=$('.livelist ul li').length;
+     console.log(ns);
+        nums++;
+        if (nums>ns-4) {nums=ns-4;
+            $('.livelist ul').css('top',-nums*106);
+            $('.vid_next').css('backgroundPosition', 'right top');
+            $('.vid_prev').css('backgroundPosition', 'left bottom');
+        }
+
+        $('.livelist ul').animate({top:-nums*106}, 500);
+        $('.vid_prev').css('backgroundPosition', 'left bottom');
+    });
+    $('.vid_prev').click(function(event) {           
+        nums--;
+        if (nums<0) {nums=0;
+            $('.livelist ul').css('top',0)
+            $(this).css('backgroundPosition', 'right bottom');
+            $('.vid_next').css('backgroundPosition', 'right top');
+        }
+        $('.livelist ul').animate({top:-nums*106}, 500);
+        $('.vid_next').css('backgroundPosition', 'left top');
+    });
+
+    $.getUrlParam = function (name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+
+    
+    $.ajax({
+        type: "GET",
+        url: "./jsonback.php?action=getAll",
+        dataType: "json",
+        success: function(data){
+            var url = $.getUrlParam('liveUrl'); 
+            console.log(data.over.length,data.on.length,data.no.length)
+            // if (data.over.length > 0) {
+            //     $.each(data.over,function(key,value){
+            //         if (url == value.room_id)
+            //         $(".livelist ul").append("<li class='on_zb'><p>"+value.title+"</p><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='?liveUrl="+value.room_id+"&liveType=vod'>观看录播</a></li>");
+            //         else
+            //         $(".livelist ul").append("<li class='over_zb'><p>"+value.title+"</p><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='?liveUrl="+value.room_id+"&liveType=vod'>观看录播</a></li>");
+            //     });
+            // }
+            // if (data.on.length > 0) {
+            //     $.each(data.on,function(key,value){
+            //         if (url == value.room_id)
+            //         $(".livelist ul").append("<li class='on_zb'><p>"+value.title+"</p><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='?liveUrl="+value.room_id+"&liveType=live'>正在直播</a></li>");
+            //         else
+            //         $(".livelist ul").append("<li class='zbing'><p>"+value.title+"</p><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='?liveUrl="+value.room_id+"&liveType=live'>正在直播</a></li>");
+            //     });
+            // }
+            // if (data.no.length > 0) {
+            //     $.each(data.no,function(key,value){
+            //         $(".livelist ul").append("<li class='no_zb'><p>"+value.title+"</p><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='javascript:void(0)'>马上开始</a></li>");
+            //     });                
+            // }
+        }
+    });
+})
+
+</script>

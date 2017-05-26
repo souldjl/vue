@@ -1,0 +1,49 @@
+@charset "utf-8";
+/* CSS Document */
+body {margin:0; padding:0; font:12px/21px "\5FAE\8F6F\96C5\9ED1",Arial,sans-serif;}
+/*html{scrollbar-face-color:rgba(255,255,255,0.5);scrollbar-highlight-color:rgba(0,204,255,0.2);scrollbar-shadow-color:rgba(50,255,204,0.2);scrollbar-3dlight-color:#3c9;scrollbar-arrow-color:#000;scrollbar-track-color:rgba(0,204,200,0.2);scrollbar-darkshadow-color:#48486c;scrollbar-base-base-color: rgba(50,255,200,0.2);
+}*/
+dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,form,input,button,p,img,table,tr,td{margin:0; padding:0; list-style:none;}
+input{border:none;}
+img {border:none;}
+em{font-style:normal;}
+.clearfix { zoom:1;}
+.clearfix:after { visibility:hidden; display:block; font-size:0; content: " "; clear:both; height:0;}
+.clear { clear:both; font-size:0; height:0; line-height:0; }
+a{color:#333;text-decoration:none}
+a:hover{color:#f40; text-decoration: none;}
+
+/*地方站*/
+#topbar .wrap p{float:left; width:400px; height:33px; font:14px/32px "\5FAE\8F6F\96C5\9ED1",Arial,sans-serif;}
+#topbar .wrap p a{padding-right:15px;}
+#topbar .wrap p a:hover{color:#f00;}
+/*各分校入口*/
+#header .wrap{position:relative; font-family:"\5FAE\8F6F\96C5\9ED1",Arial,sans-serif;}
+.fxrk{position:absolute;left:488px; top:17px; width:120px;z-index:10;}
+.fxList {position:absolute;left:0px; top:27px;width: 80px;height:300px; overflow:auto;color: #333;line-height: 28px;cursor: pointer; border:1px solid #ccc;display: none;}
+.fxList li {background: #FFF;text-align: center; border-right:1px solid #ccc; border-left:1px solid #ccc; }
+.fxrk span {display: block;font-size:16px; color:#6d6e71;line-height: 30px;cursor: pointer; background:url(../images/icon2.png) no-repeat -124px -68px;}
+
+#header .wrap .fxm{font-size:24px; line-height:60px; padding-left:20px;}
+
+.class_nav{width:1188px; height:0; border:0; background:none; overflow:hidden;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

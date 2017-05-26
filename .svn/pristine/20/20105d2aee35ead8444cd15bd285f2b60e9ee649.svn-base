@@ -1,0 +1,104 @@
+<?php
+include "./WebTool.php";
+include './db_sqlsrv.php';
+
+//WebTool::respondJSON( array('name'=>'sl') );
+date_default_timezone_set('PRC');
+
+function getAll(){
+	// $arr = array();
+	// $arr['over'][0]['title'] = '以前直播视频title';
+	// $arr['over'][0]['start_time'] = '16:00';
+	// $arr['over'][0]['end_time'] = '17:00';
+	// $arr['over'][0]['room_id'] = '5556f0dea2904c8992f4851964594b7f';
+	// $arr['over'][1]['title'] = '以前直播视频title';
+	// $arr['over'][1]['startTime'] = '16:00';
+	// $arr['over'][1]['end_time'] = '17:00';
+	// $arr['over'][1]['room_id'] = '5556f0dea2904c8992f4851964594b7f';
+	// $arr['on'][0]['title'] = '正在直播的title';
+	// $arr['on'][0]['startTime'] = '14:00';
+	// $arr['on'][0]['emdTime'] = '19:00';
+	// $arr['on'][0]['liveUrl'] = '2a4a7f7e2879431d86de5289e32908f2';
+	// $arr['on'][1]['title'] = '正在直播的title';
+	// $arr['on'][1]['startTime'] = '14:00';
+	// $arr['on'][1]['emdTime'] = '19:00';
+	// $arr['on'][1]['liveUrl'] = '2a4a7f7e2879431d86de5289e32908f2';
+	// $arr['no'][0]['title'] = '未开始的直播title';
+	// $arr['no'][0]['startTime'] = '19:00';
+	// $arr['no'][0]['emdTime'] = '21:00';
+	// $arr['no'][0]['liveUrl'] = '。。。。。。。。。。。。。。。。';
+	// return json_encode($arr);
+
+
+	$conn = new Database();
+	$time = strtotime(date('Y-m-d',time()));
+
+//var_dump ( $time );
+	$get_sql = "SELECT * FROM live_plan WHERE date = $time AND type = 1 order by start_time";
+	$data = $conn->select($get_sql,array());
+//var_dump( $data );
+	$arr = array();
+	$time_now = time();
+	if ($data['ecode'] == 0) {
+		foreach ($data['data'] as $key => $value) {
+			$start_time = strtotime($value['start_time']);
+			$end_time = strtotime($value['end_time']);
+
+//var_dump( $start_time, $time_now, $end_time );
+//echo "<br>\n";
+
+			$replay_id = $value['replay_id'];
+			if($start_time < $time_now && $end_time > $time_now){
+				$arr['on'][] = $value;
+			}else if($start_time > $time_now){
+				$arr['no'][] = $value;
+			}
+		}
+
+		WebTool::respondJSON($arr);
+	}else{
+		WebTool::respondJSON($data['emsg']);
+
+	}
+
+}
+
+function getOne(){
+	$conn = new Database();
+	$time = strtotime(date('Y-m-d',time()));
+
+	$get_sql = "SELECT * FROM live_plan WHERE date = $time AND type = 1 ";
+	$data = $conn->select($get_sql,array());
+
+	$url = array('on_live'=>array(),'on_vod'=>array(),'over'=>array());
+	$time_now = time();
+	if ($data['ecode'] == 0) {
+			$url_list = array();
+		foreach ($data['data'] as $key => $value) {
+
+			$start_time = strtotime($value['start_time']);
+			$end_time = strtotime($value['end_time']);
+			$replay_id = $value['replay_id'];
+
+			if($start_time < $time_now && $end_time > $time_now){
+				if ($replay_id && strlen($replay_id) > 10) {
+					$url_list['on_vod'][] = array($value['replay_id'],$value['secret']);
+				}else{
+					$url_list['on_live'][] = array($value['room_id'],$value['secret']);
+				}
+			}
+		}
+		// var_dump($url_list);die;
+		$url = $url_list;
+
+
+	}
+
+	return $url;
+}
+
+
+$action = isset($_GET['action'])?$_GET['action']:'';
+if ($action == 'getAll') {
+	getAll();
+}

@@ -1,0 +1,39 @@
+@charset "utf-8";
+/* CSS Document */
+/*class*/
+#class{width:1190px; height:auto; margin:0 auto 18px;}
+.class_nav{width:1188px; height:auto; border:1px solid #e8e8e8; background:#fafafa;}
+.class_fl{float:left; width:1150px; padding:15px 0 15px 25px; font:14px/28px "\5FAE\8F6F\96C5\9ED1",Arial,sans-serif; clear:both; overflow:hidden;}
+#class .class_fl li{height:auto; padding:4px 14px 4px 0 !important; clear:both;}
+.class_fl li.bx{display:none;}
+.class_fl em{padding-right:14px; float:left;}
+.class_fl a{display:block; float:left; padding:0 10px; height:28px; margin:2px 6px 2px 0; border-radius:3px;}
+.class_fl a.current{background:#4acab1; color:#fff;}
+.class_fl a:hover{background:#4acab1; color:#fff;}
+/*nav ����*/
+.jq_nav{ position: fixed !important;top: 0px;left: 50%;width: 1190px;margin:0 0 0 -595px !important;z-index: 32; background:#fff;}
+.jq_classnav{ position: fixed;top: 61px;left: 50%;width: 1190px;margin:0 0 0 -595px !important;z-index: 31;}
+
+#nav_wrap{position:relative; width:1190px; height:auto; margin:0 auto;}
+
+.sqbtn{ position:absolute; right:80px; top:20px; width:50px; height:28px; padding-left:30px; background:url(../images/sqbtn.png) no-repeat 0 0px; font-size:18px; line-height:28px; color:#4acab1; cursor:pointer;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

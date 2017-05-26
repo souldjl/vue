@@ -1,0 +1,43 @@
+@charset "utf-8";
+/* CSS Document */
+body{/*overflow: hidden;*/ /* 取消页面中的滚动条 */
+height:1000px;background: url(../images/pagebg.jpg) 0 0 no-repeat; 
+	margin:0; padding:0; font:12px/22px "\5FAE\8F6F\96C5\9ED1",Arial,sans-serif;color:#333;}
+html,body{width:100%;height: 100%;}
+dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,form,input,button,p,img,table,tr,td{margin:0; padding:0; list-style:none;}
+input{border:none;}
+img{border:none;}
+em{font-style:normal;}
+.clearfix { zoom:1;}
+.clearfix:after { visibility:hidden; display:block; font-size:0; content: " "; clear:both; height:0;}
+.clear { clear:both; font-size:0; height:0; line-height:0; }
+a{color:#333;text-decoration:none}
+a:hover{color:#f40; text-decoration: none;}
+
+.navpage{width:100%; height:100%; }
+.navpage .wrap{width:1190px; height:100%; margin:0 auto; position:relative;}
+.navpage .logo{width:181px; height:68px; position: absolute;top:10px;}
+.navpage .con{width:900px; height:750px; position:absolute; left:145px; top:50%; margin-top:-264px; }
+.navpage .con .tit{}
+.navpage .con .tit img{display:block; margin:0 auto;}
+.navpage .list{width:900px; height:360px; padding-top:20px;}
+.navpage .list li{float:left; width:260px; height:360px; background:url(../images/libg1.jpg); margin-right:60px;}
+.navpage .list li.sec{background:url(../images/libg2.jpg);}
+.navpage .list li.thr{background:url(../images/libg3.jpg); margin-right:0;}
+.navpage .list li p{ font-size:22px; line-height:30px; color:#fff; text-align:center; padding-top:220px;}
+.navpage .list li span{ display:block; width:98px; height:33px; border:2px solid #fff; border-radius:3px; font-size:16px; line-height:34px; color:#fff; text-align:center; margin:24px auto 0;}
+
+.navpage .list li span:hover{height:37px; background:#ec4343; line-height:37px; border:none;}
+.navpage .list li.sec span:hover{background:#06a097;}
+.navpage .list li.thr span:hover{background:#ba9f13;}
+
+.navpage .list2{width:760px;margin:0 auto;}
+.navpage .list2 li{margin:0 60px;}
+
+
+.navpage .bottom{width:740px; height:125px; background:rgba(255,226,224,0.3); line-height:30px; color:#333; margin:70px auto 0;}
+.navpage .bottom p a{display:inline-block; width:20px; height:20px; position:relative;}
+.navpage .bottom p a img{position:absolute; bottom:0; left:0;}
+.navpage .footer {font-size:14px; width: 100%;text-align: center; margin:0 auto;padding-top:20px;color:#333;}
+.navpage .footer a, .yqljBox a {padding: 0 6px;color:#333;text-decoration: none;}
+.navpage .bottom p{ text-align:center;}

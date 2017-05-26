@@ -1,0 +1,134 @@
+<style scoped>
+  .arrow-box{
+    background:rgba(153,187,232,0.2);
+    margin:15px auto;
+    height:70px;
+    line-height:70px;
+    width:1135px;
+  }
+  .arrow{
+    color:red;
+    font-size:30px;
+    padding:20px;
+    padding-left:5px;
+    padding-right:5px;
+    cursor:pointer;
+    opacity:0.6;
+  }
+  .arrow:hover{
+    opacity:1;
+  }
+  .noresult{
+    min-height:320px;
+    text-align:center;
+    line-height:320px;
+    font-size:25px;
+    color:#444;
+  }
+</style>
+<template>
+  <div class="clearfix">
+    <el-row class="el-row-mb">
+      <el-col :span="4" :offset="20">
+        <el-button @click="add" type="primary">添加</el-button>
+      </el-col>
+    </el-row>
+
+    <el-row class="arrow-box">
+      <i class="el-icon-arrow-left fl arrow"  @click="toLeft"></i>
+      <i class="el-icon-arrow-right fr arrow"  @click="toRight"></i>
+    </el-row>
+    <div class="clearfix container">
+
+      <div v-if="displaying.length<=0" class="noresult">
+        这里什么也没有!
+      </div>
+
+      <Planlist v-for="(planlist, index) in displaying" :key="planlist"
+                :planlistIndex="wOffset + index" :planlist="planlist"/>
+
+    </div>
+
+  </div>
+</template>
+
+<script>
+//  import { mapMutations } from 'vuex'
+  import Planlist from './Planlist.vue'
+  import WebTools from '../libs/WebTools'
+
+  export default {
+    name:'ListContainer',
+    components: { Planlist },
+    data(){
+      return{
+    //   wOffset : this.$store.state.planlists.length-3 <0 ? 0 : this.$store.state.planlists.length-3,
+       wLength : 5
+      }
+    },
+    computed: {
+      planlists () {
+        return this.$store.state.planlists;
+      },
+      wOffset (){
+        return this.$store.state.wOffset;
+      },
+      displaying(){
+        let lists = this.planlists.sort( (a,b) => {
+          if( a.date > b.date ) {
+            return 1
+          }else if( a.date < b.date ) {
+            return -1
+          }else{
+            return 0
+          }
+        })
+        return lists.slice(this.wOffset,this.wOffset + this.wLength)
+      }
+    },
+    methods: {
+      add (e) {
+        this.$store.commit('addPlanlist')
+      },
+      toLeft(){
+        if(this.wOffset >=1){
+          this.$store.commit('toLeft')
+        }else {
+          this.$alert('已经到最后面了,没有更多数据了', 'Attention', {
+            confirmButtonText: '确定',
+          });
+        }
+      },
+      toRight(){
+
+        if(this.planlists.length-this.wOffset > this.wLength){
+          this.$store.commit('toRight')
+        }else{
+          this.$alert('已经到最后面了,没有更多数据了', 'Attention', {
+            confirmButtonText: '确定',
+          });
+        }
+       /* if(this.$store.state.wOffset > 1){
+
+        }else{
+          this.$alert('已经到最前面了,无法看到更多了', 'Attention', {
+            confirmButtonText: '确定',
+          });
+        }*/
+
+        //this.num--;
+
+      }
+    }
+  }
+
+
+</script>
+
+<style scoped>
+  .el-row-mb{
+    height:30px;
+    margin-bottom: 50px;
+  }
+</style>
+

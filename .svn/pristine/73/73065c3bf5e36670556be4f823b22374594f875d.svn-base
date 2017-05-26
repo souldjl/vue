@@ -1,0 +1,213 @@
+<template>
+    <el-row style="margin-top: 80px;">
+        <el-col :span="14" :offset="5">
+            <el-form  :model="form"  :rules="rules" ref="form" label-width="120px" >
+
+              <el-form-item label="直播日期">
+                <el-col>
+                  <div>{{form.date}}</div>
+                </el-col>
+              </el-form-item>
+
+              <el-form-item label="直播主题" prop="title">
+                <el-input v-model="form.title" type="textarea"></el-input>
+              </el-form-item>
+
+              <el-form-item label="播出时段" required>
+                  <el-row>
+                      <el-col :span="7">
+                          <el-form-item prop="startTime">
+                              <el-time-select
+                                      placeholder="起始时间"
+                                      prop="statrTime"
+                                      format
+                                      v-model="form.startTime"
+                                      :picker-options="{
+                              start: '00:00',
+                              step: '00:15',
+                              end: '24:00'
+                      }"
+                              >
+                              </el-time-select>
+                          </el-form-item>
+
+                      </el-col>
+                      <el-col :span="7" :offset="2">
+                          <el-form-item prop="endTime">
+                              <el-time-select
+                                      placeholder="结束时间"
+                                      prop="endTime"
+                                      format
+                                      v-model="form.endTime"
+                                      :picker-options="{
+                          start: '00:00',
+                          step: '00:15',
+                          end: '24:00'
+                        }">
+                              </el-time-select>
+                          </el-form-item>
+
+                      </el-col>
+                  </el-row>
+              </el-form-item>
+
+              <el-form-item label="直播间id" prop="roomId">
+                    <el-input v-model="form.roomId"></el-input>
+                </el-form-item>
+
+                <el-form-item label="录播间id" prop="replayId">
+                    <el-input v-model="form.replayId"></el-input>
+                </el-form-item>
+
+              <el-form-item label="用户口令">
+                <el-input v-model="form.secret"></el-input>
+              </el-form-item>
+
+                <el-form-item>
+                    <el-button @click="onCancel">取消</el-button>
+                    <el-button type="primary" @click="onSubmit('form')" :loading="isLoading" :disabled="isLoading">保存</el-button>
+                </el-form-item>
+            </el-form>
+        </el-col>
+    </el-row>
+</template>
+
+<script>
+  import { mapMutations, mapActions } from 'vuex'
+  export default {
+    data() {
+      return {
+        isLoading:false,
+        query: this.$route.query,
+        form: {
+          key: null,
+          id: null,
+          title: '',
+          roomId: null,
+          replayId:null,
+          secret: null,
+          date: null,
+          startTime: null,
+          endTime: null,
+        },
+        rules: {
+          title: [
+            { required: true, message: '请输入直播名称', trigger: 'blur' },
+            {  max: 30, message: '长度不得大于 30 个字符', trigger: 'blur' }
+          ],
+          startTime:[
+            { required: true, message: '请选择开始时间', trigger: 'blur' },
+          ],
+          endTime:[
+            { required: true, message: '请选择结束时间', trigger: 'blur' },
+          ],
+          roomId:[
+            { required: true, message: '请输入直播间id', trigger: 'blur' },
+          ]
+        }
+      }
+    },
+    created(){
+      if( this.query.method == 'modify' ) {
+        //已有数据
+        for( let key in this.form ) {
+          this.form[key] = this.plan[key]
+        }
+      }else{
+        //新数据
+        this.form.date = this.query.date
+      }
+    },
+    computed: {
+      plans () {
+        return this.$store.state.planlists[this.query.planlistIndex].plans
+      },
+      plan () {
+        return this.plans[this.query.planIndex]
+      },
+    },
+    methods: {
+      ...mapActions([
+        'addNewPlan',
+        'modifyPlan'
+      ]),
+//      ...mapActions([
+//        'modifyPlan',
+//      ]),
+      onSubmit(editForm) {
+        this.$refs[editForm].validate((valid) => {
+          if (valid) {
+
+            if( this.form.startTime == '24:00' ) {
+              this.form.startTime = '23:59'
+            }
+            if( this.form.endTime == '24:00' ) {
+              this.form.endTime = '23:59'
+            }
+
+            this.isLoading = true;
+            if( this.query.method == 'modify' ) {
+              this.modifyPlan({
+                planlistIndex: this.query.planlistIndex,
+                planIndex: this.query.planIndex,
+                form: this.form,
+              })
+                .then( ()=>{
+                  this.isLoading = false;
+                  this.$notify({
+                    title: '成功',
+                    message: '修改成功',
+                    type: 'success'
+                  });
+                  this.$router.replace('/')
+                })
+                .catch ( (err)=>{
+                      this.$notify({
+                          title: '操作失败，请重试',
+                          message: '错误描述：' + err.emsg
+                      });
+                      this.isLoading = false;
+                 })
+            }else{
+              //新数据
+              this.addNewPlan({
+                planlistIndex: this.query.planlistIndex,
+                form: this.form,
+              })
+                .then( () => {
+                  this.isLoading = false;
+                  this.$notify({
+                    title: '成功',
+                    message: '添加成功',
+                    type: 'success'
+                  })
+                  this.$router.replace('/')
+                })
+                .catch ( (err)=>{
+                  this.$notify({
+                    title: '操作失败，请重试',
+                    message: '错误描述：' + err.emsg
+                  });
+                  this.isLoading = false;
+                })
+            }
+
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+
+      },
+
+      onCancel() {
+        this.$router.back()
+      }
+
+    }
+  }
+</script>
+
+<style>
+
+</style>
