@@ -358,7 +358,7 @@
 </html>
 <script type="text/javascript" src="http://static.gensee.com/webcast/static/sdk/js/gssdk.js"></script>
 <script type="text/javascript">var channel = GS.createChannel("videogroup");</script>
-<script type="text/javascript" src="./js/live.d9akd32f.js"></script>
+<script type="text/javascript" src="./js/live.2fdg9adf.js"></script>
 <script>
 $(function(){
     $('.bgCon em').on('click',function(){
@@ -452,54 +452,64 @@ $(function(){
         if (r != null) return unescape(r[2]); return null;
     }
 
-    $.ajax({
-        type: "GET",
-        url: "./jsonback.php?action=getAll",
-        dataType: "json",
-        success: function(data){
-            var url = $.getUrlParam('liveUrl')||$.getUrlParam('vodUrl')||$('.gs-sdk-widget:first').attr('ownerid');
-            if (data.on) {
-                $.each(data.on,function(key,value){
-                    if (url == value.replay_id)
-                    $(".today ul").append("<li class='on_zb' live_type='vod' endtime='"+value.end_time+"'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='?vodUrl="+value.replay_id+"&secret="+value.secret+"'>观看录播</a><p>"+value.title+"</p></li>");
-                    else if (url == value.room_id && !value.replay_id)
-                    $(".today ul").append("<li class='on_zb' live_type='live' endtime='"+value.end_time+"'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='?liveUrl="+value.room_id+"&secret="+value.secret+"'>正在直播</a><p>"+value.title+"</p></li>");
-                    else if(value.room_id && value.replay_id)
-                    $(".today ul").append("<li class='zbing' live_type='vod' endtime='"+value.end_time+"'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='?vodUrl="+value.replay_id+"&secret="+value.secret+"'>观看录播</a><p>"+value.title+"</p></li>");
-                    else
-                    $(".today ul").append("<li class='zbing' live_type='live' endtime='"+value.end_time+"'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='?liveUrl="+value.room_id+"&secret="+value.secret+"'>正在直播</a><p>"+value.title+"</p></li>");
-                });
-            }
-            if (data.no) {
-                $.each(data.no,function(key,value){
-                    $(".today ul").append("<li class='no_zb'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='javascript:void(0)'>马上开始</a><p>"+value.title+"</p></li>");
-                });
-            }
 
-            if($('.today ul li').hasClass('on_zb')){
-                if ($('.today ul .on_zb').attr('live_type') == 'vod') {
-                    setInterval(function(){
-                        if (checkEndTime($('.today ul .on_zb').attr('endtime'))) {
-                            window.location.href = "./index3_lb.php";
-                        }
-                    },1000);
+    var checkEndTimeTimer = 0;
+    function refresh(){
+        console.log( '刷新直播节目单', new Date() );
+        $.ajax({
+            type: "GET",
+            url: "./jsonback.php?action=getAll",
+            dataType: "json",
+            success: function(data){
+                $(".today ul").html('');
+                var url = $.getUrlParam('liveUrl')||$.getUrlParam('vodUrl')||$('.gs-sdk-widget:first').attr('ownerid');
+                if (data.on) {
+                    $.each(data.on,function(key,value){
+                        if (url == value.replay_id)
+                            $(".today ul").append("<li class='on_zb' live_type='vod' endtime='"+value.end_time+"'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='?vodUrl="+value.replay_id+"&secret="+value.secret+"'>观看录播</a><p>"+value.title+"</p></li>");
+                        else if (url == value.room_id && !value.replay_id)
+                            $(".today ul").append("<li class='on_zb' live_type='live' endtime='"+value.end_time+"'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='?liveUrl="+value.room_id+"&secret="+value.secret+"'>正在直播</a><p>"+value.title+"</p></li>");
+                        else if(value.room_id && value.replay_id)
+                            $(".today ul").append("<li class='zbing' live_type='vod' endtime='"+value.end_time+"'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='?vodUrl="+value.replay_id+"&secret="+value.secret+"'>观看录播</a><p>"+value.title+"</p></li>");
+                        else
+                            $(".today ul").append("<li class='zbing' live_type='live' endtime='"+value.end_time+"'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='?liveUrl="+value.room_id+"&secret="+value.secret+"'>正在直播</a><p>"+value.title+"</p></li>");
+                    });
+                }
+                if (data.no) {
+                    $.each(data.no,function(key,value){
+                        $(".today ul").append("<li class='no_zb'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='javascript:void(0)'>马上开始</a><p>"+value.title+"</p></li>");
+                    });
+                }
+
+                if($('.today ul li').hasClass('on_zb')){
+                    if ($('.today ul .on_zb').attr('live_type') == 'vod') {
+                        clearInterval(checkEndTimeTimer);
+                        checkEndTimeTimer = setInterval(function(){
+                            if (checkEndTime($('.today ul .on_zb').attr('endtime'))) {
+                                window.location.href = "./index3_lb.php";
+                            }
+                        },1000);
+                    }
                 }
             }
-        }
-    });
+        });
 
-    $.ajax({
-        type: "GET",
-        url: "./jsonBackNext.php?action=getAll",
-        dataType: "json",
-        success: function(data){
-          //   console.log( data )
-             $.each(data,function(key,value){
-                 $(".nextday ul").append("<li class='no_zb' live_type='live' endtime='"+value.end_time+"'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='javascript:;'>即将开始</a><p>"+value.title+"</p></li>");
-             });
-        }
-    });
+        $.ajax({
+            type: "GET",
+            url: "./jsonBackNext.php?action=getAll",
+            dataType: "json",
+            success: function(data){
+                //   console.log( data )
+                $(".nextday ul").html('');
+                $.each(data,function(key,value){
+                    $(".nextday ul").append("<li class='no_zb' live_type='live' endtime='"+value.end_time+"'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='javascript:;'>即将开始</a><p>"+value.title+"</p></li>");
+                });
+            }
+        });
+    }
 
+    refresh();
+    setInterval(refresh, 60 * 1000);//5分钟刷新一次节目单
 })
 
 </script>

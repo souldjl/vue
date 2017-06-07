@@ -174,7 +174,6 @@
         <div class="videobox">
             <!--Ö±²¥Í·Ïñ -->
                 <div class="livetx" id="livetx">
-                   <!-- <div id="livetx_background" style="position:absolute;width:282px;height:212px;background:url(./images/live-head.png) no-repeat;z-index:555;"></div>-->
                 <?php if(isset($_GET['liveUrl']) && isset($_GET['secret'])){ ?>
                     <gs:video-live  site="htexam.gensee.com" ctx="webcast" ownerid="<?php echo $_GET['liveUrl']?>"  uname="<?php echo $cookieUserName;?>" group="videogroup" bar="false" py="1" k="" authcode="<?php echo $_GET['secret']?>" bgimg="http://live.huatu.com/Public/images/tx.jpg"/>
                 </div>
