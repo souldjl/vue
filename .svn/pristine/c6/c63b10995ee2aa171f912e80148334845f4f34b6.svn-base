@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <meta name="renderer" content="webkit"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Content-Type" content="text/html; charset=gbk">
-    <title>直播体验</title>
+    <title>华图教师直播课堂</title>
     <meta name="description" content="华图教师网是华图教育旗下重要品牌,提供教师招聘考试(含特岗)、国考教师资格证考试公告、报名时间、报名入口、面试信息、真题资料、辅导培训等,教师考试信息尽在华图教师网." />
 <meta name="keywords" content="教师,教师招聘,教师资格证考试,教师考试,教师网,华图" />
     <link href="css/index.css" rel="stylesheet" type="text/css" />
-    <link href="css/index_sx.css" rel="stylesheet" type="text/css" />
+    <link href="css/index_sx_2.css" rel="stylesheet" type="text/css" />
     <link href="css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="//cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
 <style>
@@ -23,6 +26,7 @@
         width: 640px;
         height: 170px;
     }
+
     .livetx {
         width: 282px;
         height: 212px;
@@ -102,12 +106,12 @@
     }
     .bgCon{
         width:523px;
-        height: 342px;
+        height: 214px;
         position: fixed;
         left: 50%;
         top: 50%;
         margin-left: -261px;
-        margin-top: -160px;
+        margin-top: -104px;
         padding-top: 50px;
         background: url(images/bgColor.png) no-repeat;
         z-index: 999;
@@ -141,7 +145,7 @@
         line-height: 28px;
         text-align: center;
         float: right;
-        margin-right: 50px;
+        margin-right: 65px;
         position: relative;
         top: -3px;
 
@@ -166,60 +170,71 @@
     <div class="livebox">
         <div class="videobox">
             <!--直播头像 -->
-            <div class="livetx">
-            <?php if(isset($_GET['liveUrl']) && isset($_GET['secret'])){ ?>
+                <div class="livetx">
+                    <div id="livetx_background" style="position:absolute;width:282px;height:212px;background:url(./images/live-head.png) no-repeat;z-index:555;"></div>
+                <?php if(isset($_GET['liveUrl']) && isset($_GET['secret'])){ ?>
                     <gs:video-live  site="htexam.gensee.com" ctx="webcast" ownerid="<?php echo $_GET['liveUrl']?>"  uname="<?php echo $cookieUserName;?>" group="videogroup" bar="false" py="1" k="" authcode="<?php echo $_GET['secret']?>" bgimg="http://live.huatu.com/Public/images/tx.jpg"/>
-                    </div>
+                </div>
                     <!-- ppt-->
-                    <div class="liveppt">
+                <div class="liveppt">
+                    <div id="liveppt_background" style="position:absolute;width:640px;height:360px;background:url(./images/pdf.png) no-repeat;z-index:555;"></div>
+
                         <div id="docComponent" style="height: 100%;border:1px solid #3c3d40;">
                             <gs:doc site="htexam.gensee.com" ownerid="<?php echo $_GET['liveUrl']?>" ctx="webcast" group="videogroup"/>
                         </div>
-                    </div>
+                </div>
                <?php }else if(isset($_GET['vodUrl']) && isset($_GET['secret'])){ ?>
                     <gs:video-vod  site="htexam.gensee.com" ctx="webcast" ownerid="<?php echo $_GET['vodUrl']?>"  uname="<?php echo $cookieUserName;?>" group="videogroup" bar="false" py="1" k="" authcode="<?php echo $_GET['secret']?>" bgimg="http://live.huatu.com/Public/images/tx.jpg"/>
-                    </div>
+                </div>
                     <!-- ppt-->
-                    <div class="liveppt">
+                <div class="liveppt">
+                    <div id="liveppt_background" style="position:absolute;width:640px;height:360px;background:url(./images/pdf.png) no-repeat;z-index:555;"></div>
+
                         <div id="docComponent" style="height: 100%;border:1px solid #3c3d40;">
                             <gs:doc site="htexam.gensee.com" ownerid="<?php echo $_GET['vodUrl']?>" ctx="webcast" group="videogroup"/>
                         </div>
-                    </div>
+                </div>
                 <?php }else{
                 include "./jsonback.php";
                     $one=getOne();
 
                     if(!empty($one['on_live'])){ ?>
                     <gs:video-live  site="htexam.gensee.com" ctx="webcast" ownerid="<?php echo $one['on_live'][0][0]?>"  uname="<?php echo $cookieUserName;?>" group="videogroup" bar="false" py="1" k="" authcode="<?php echo $one['on_live'][0][1]?>" bgimg="http://live.huatu.com/Public/images/tx.jpg"/>
-                    </div>
+                </div>
                     <!-- ppt-->
-                    <div class="liveppt">
+                <div class="liveppt">
+                    <div id="liveppt_background" style="position:absolute;width:640px;height:360px;background:url(./images/pdf.png) no-repeat;z-index:555;"></div>
+
                         <div id="docComponent" style="height: 100%;border:1px solid #3c3d40;">
                             <gs:doc site="htexam.gensee.com" ownerid="<?php echo $one['on_live'][0][0]?>" ctx="webcast" group="videogroup"/>
                         </div>
-                    </div>
+                </div>
 
 
                 <?php  }else if(!empty($one['on_vod'])){ ?>
                     <gs:video-vod  site="htexam.gensee.com" ctx="webcast" ownerid="<?php echo $one['on_vod'][0][0]?>"  uname="<?php echo $cookieUserName;?>" group="videogroup" bar="false" py="1" k="" authcode="<?php echo $one['on_vod'][0][1]?>" bgimg="http://live.huatu.com/Public/images/tx.jpg"/>
-                    </div>
+                </div>
                     <!-- ppt-->
-                    <div class="liveppt">
+                <div class="liveppt">
+                    <div id="liveppt_background" style="position:absolute;width:640px;height:360px;background:url(./images/pdf.png) no-repeat;z-index:555;"></div>
+
                         <div id="docComponent" style="height: 100%;border:1px solid #3c3d40;">
                             <gs:doc site="htexam.gensee.com" ownerid="<?php echo $one['on_vod'][0][0]?>" ctx="webcast" group="videogroup"/>
                         </div>
-                    </div>
+                </div>
 
 
                 <?php  }else{ ?>
                     <gs:video-vod  site="htexam.gensee.com" ctx="webcast" ownerid=""  uname="<?php echo $cookieUserName;?>" group="videogroup" bar="false" py="1" k="" authcode="" bgimg="http://live.huatu.com/Public/images/tx.jpg"/>
-                    </div>
+                </div>
                     <!-- ppt-->
-                    <div class="liveppt">
+                <div class="liveppt">
+                    <div id="liveppt_background" style="position:absolute;width:640px;height:360px;background:url(./images/pdf.png) no-repeat;z-index:555;"></div>
+
                         <div id="docComponent" style="height: 100%;border:1px solid #3c3d40;">
                             <gs:doc site="htexam.gensee.com" ownerid="" ctx="webcast" group="videogroup"/>
                         </div>
-                    </div>
+                </div>
 
                   <?php  } ?>
                <?php  } ?>
@@ -242,7 +257,7 @@
         <!--二维码扫码关注修改后-->
         <div class="smgz">
             <div class="wx">
-                <img src="images/ewm_wx.png" alt="教师网">
+                <img src="./images/ewm_wx.png" alt="教师网">
                 <p>教师在线APP：题库 直播</p>
                 <span>扫一扫下载</span>
             </div>
@@ -273,16 +288,35 @@
         </div>
         <!--右侧直播列表-->
         <div class="listwrap">
-            <h3>今日直播</h3>
-            <div class="livelist">
+            <div class="clearfix">
+                <h3 class="active">今日直播</h3>
+                <h3>明日预告</h3>
+            </div>
+        <div class="livelist-container">
+            <div class="livelist today">
                 <ul>
+
                 </ul>
             </div>
-            <div class="vidbtn">
-                <span class="vid_prev"></span>
-                <span class="vid_next"></span>
+            <div class="livelist nextday" style="display:none;">
+                <ul>
+
+                </ul>
             </div>
         </div>
+
+        <div class="vidbtn">
+            <span class="vid_prev"></span>
+            <span class="vid_next"></span>
+        </div>
+        </div>
+  <script>
+      $('.listwrap .clearfix h3').on('click',function(){
+        var index= $(this).index();
+        $(this).addClass('active').siblings().removeClass('active');
+        $('.livelist-container .livelist').hide().eq(index).show();
+      })
+  </script>
     </div>
 </div>
 <div class="bgColor"></div>
@@ -292,8 +326,6 @@
     <p class="clearfix">资格证【面试】QQ群号：542473319 <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=01a38daf59eec9ba59a625fadfa148be7592007a9276ad905b235109bbd094bb">一键加群</a>
     </p>
     <p class="clearfix">教师招聘【笔试】QQ群号：533618594 <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=7a9406cb3467d5bd150b4e2af7ee137a5b63ab08823a79c9b0d1f8f9ff145683">一键加群</a></p>
-    <p class="clearfix">事业单位D类【笔试】QQ群号：514840426 <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=c5b2c1eff6be290c8b32491ba6ee6acfcd469b8663cf97ad628a7d1530b59602">一键加群</a></p>
-    <p class="clearfix">特岗【笔试】QQ群号： 532524495 <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=04389723316c8d48e4846b5a2f75b6c5fb982379ce3693ddcadb84a99c0b4da7">一键加群</a></p>
     <p class="clearfix">教师招聘【面试】QQ群号：573832165 <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=eaaf5c474f23373aecc895b9e6fa5cdeaecc105ed30a60522818567e8f492472">一键加群</a>
     </p>
 </div>
@@ -304,7 +336,7 @@
 </html>
 <script type="text/javascript" src="http://static.gensee.com/webcast/static/sdk/js/gssdk.js"></script>
 <script type="text/javascript">var channel = GS.createChannel("videogroup");</script>
-<script type="text/javascript" src="./js/live.js"></script>
+<script type="text/javascript" src="./js/live.d9akd32f.js"></script>
 <script>
 $(function(){
     $('.bgCon em').on('click',function(){
@@ -318,7 +350,8 @@ $(function(){
 
      var nums=0;
     $('.vid_next').on('click',function(event) {
-     var ns=$('.livelist ul li').length;
+     var ns = $('.livelist-container .livelist ul').css('display','block').children().length;
+  //   var ns=$('.livelist ul li').length;
      console.log(ns);
         nums++;
         if (nums>ns-4) {nums=ns-4;
@@ -347,23 +380,6 @@ $(function(){
         if (r != null) return unescape(r[2]); return null;
     }
 
-    function add0(m){return m<10?'0'+m:m }
-    function getHM(){
-        var time = new Date();
-        var hours = time.getHours();
-        var minutes = time.getMinutes();
-        return add0(hours)+':'+add0(minutes);
-    }
-
-    function checkEndTime(endTime){  
-        var now=getHM();  
-        var end=endTime;  
-        if(now>end){  
-            return true;  
-        }  
-        return false;  
-    }
-
     $.ajax({
         type: "GET",
         url: "./jsonback.php?action=getAll",
@@ -373,25 +389,25 @@ $(function(){
             if (data.on) {
                 $.each(data.on,function(key,value){
                     if (url == value.replay_id)
-                    $(".livelist ul").append("<li class='on_zb' live_type='vod' endtime='"+value.end_time+"'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='?vodUrl="+value.replay_id+"&secret="+value.secret+"'>观看录播</a><p>"+value.title+"</p></li>");
+                    $(".today ul").append("<li class='on_zb' live_type='vod' endtime='"+value.end_time+"'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='?vodUrl="+value.replay_id+"&secret="+value.secret+"'>观看录播</a><p>"+value.title+"</p></li>");
                     else if (url == value.room_id && !value.replay_id)
-                    $(".livelist ul").append("<li class='on_zb' live_type='live' endtime='"+value.end_time+"'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='?liveUrl="+value.room_id+"&secret="+value.secret+"'>正在直播</a><p>"+value.title+"</p></li>");
+                    $(".today ul").append("<li class='on_zb' live_type='live' endtime='"+value.end_time+"'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='?liveUrl="+value.room_id+"&secret="+value.secret+"'>正在直播</a><p>"+value.title+"</p></li>");
                     else if(value.room_id && value.replay_id)
-                    $(".livelist ul").append("<li class='zbing' live_type='vod' endtime='"+value.end_time+"'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='?vodUrl="+value.replay_id+"&secret="+value.secret+"'>观看录播</a><p>"+value.title+"</p></li>");
+                    $(".today ul").append("<li class='zbing' live_type='vod' endtime='"+value.end_time+"'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='?vodUrl="+value.replay_id+"&secret="+value.secret+"'>观看录播</a><p>"+value.title+"</p></li>");
                     else
-                    $(".livelist ul").append("<li class='zbing' live_type='live' endtime='"+value.end_time+"'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='?liveUrl="+value.room_id+"&secret="+value.secret+"'>正在直播</a><p>"+value.title+"</p></li>");
+                    $(".today ul").append("<li class='zbing' live_type='live' endtime='"+value.end_time+"'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='?liveUrl="+value.room_id+"&secret="+value.secret+"'>正在直播</a><p>"+value.title+"</p></li>");
                 });
             }
             if (data.no) {
                 $.each(data.no,function(key,value){
-                    $(".livelist ul").append("<li class='no_zb'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='javascript:void(0)'>马上开始</a><p>"+value.title+"</p></li>");
+                    $(".today ul").append("<li class='no_zb'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='javascript:void(0)'>马上开始</a><p>"+value.title+"</p></li>");
                 });
             }
 
-            if($('.livelist ul li').hasClass('on_zb')){
-                if ($('.livelist ul .on_zb').attr('live_type') == 'vod') {
+            if($('.today ul li').hasClass('on_zb')){
+                if ($('.today ul .on_zb').attr('live_type') == 'vod') {
                     setInterval(function(){
-                        if (checkEndTime($('.livelist ul .on_zb').attr('endtime'))) {
+                        if (checkEndTime($('.today ul .on_zb').attr('endtime'))) {
                             window.location.href = "./index3_lb.php";
                         }
                     },1000);
@@ -399,6 +415,19 @@ $(function(){
             }
         }
     });
+
+    $.ajax({
+        type: "GET",
+        url: "./jsonBackNext.php?action=getAll",
+        dataType: "json",
+        success: function(data){
+             console.log( data )
+             $.each(data,function(key,value){
+                 $(".nextday ul").append("<li class='no_zb' live_type='live' endtime='"+value.end_time+"'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='javascript:;'>明日预告</a><p>"+value.title+"</p></li>");
+             });
+        }
+    });
+
 })
 
 </script>

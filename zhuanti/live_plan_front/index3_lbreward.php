@@ -23,7 +23,8 @@
     <link href="css/index.css" rel="stylesheet" type="text/css" />
     <link href="css/index_sx_2.css" rel="stylesheet" type="text/css" />
     <link href="css/style.css" rel="stylesheet" type="text/css" />
-     <script type="text/javascript" src="//cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/reward.css" type="text/css" >
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript" src="https://static.gensee.com/webcast/static/interactive/js/json2.js"></script>
     <script type="text/javascript" src="http://static.gensee.com/webcast/static/sdk/js/gssdk.js"></script>
 <style>
@@ -284,8 +285,8 @@
 
         </div>
             <!--咨询客服-->
-            <div class="zxkf">
-
+            <div class="zxkf clearfix">
+                <a href="javascript:;" class="reward_btn fr"></a>
                 <a onclick="doyoo.util.openChat('g=10059669');return false;" style="cursor:pointer" target="_blank">咨询客服</a>
             </div>
             <!--对话列表-->
@@ -361,12 +362,111 @@
     <p class="clearfix">教师招聘【面试】QQ群号：573832165 <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=eaaf5c474f23373aecc895b9e6fa5cdeaecc105ed30a60522818567e8f492472">一键加群</a>
     </p>
 </div>
+  <!--打赏功能-->
+<input type="hidden" value="" id="teacher_id">
+<input type="hidden" value="" id="teacher_name">
+<input type="hidden" value="" id="plan_id">
+<input type="hidden" value="<?php echo $cookieUserName;?>" id="cookieUserName">
+<div id="layer"></div>
+<div class="reward_window" id="pay_before" style="display:none;">
+    <div class="title clearfix">
+        <span class="fl">打赏红包</span>
+        <a class="fr close_reward_window" href="javascript:;"></a>
+    </div>
+    <div class="body">
+        <ul class="clearfix">
+            <li class="selected" data-attr="1">￥1</li>
+            <li data-attr="2">￥2</li>
+            <li data-attr="5">￥5</li>
+            <li data-attr="10">￥10</li>
+            <li data-attr="20">￥20</li>
+            <li data-attr="50">￥50</li>
+            <li data-attr="">
+                <div class="otherMoney">其他金额</div>
+                <div class="input_pay" style="display:none;">
+                    <input type="text" id="reward_money">
+                   <!-- <input  type="text" onkeyup="value=value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">-->
+                </div>
+            </li>
+        </ul>
+        <div class="pays_btn_box">
+            <div class="pays_btn wx">微信支付</div>
+            <div class="pays_btn zfb">支付宝支付</div>
+        </div>
+    </div>
+</div>
+<!--<div class="reward_window" >
+      <div class="title clearfix">
+          <span class="fl">打赏红包</span>
+          <a class="fr close_reward_window" href="javascript:;"></a>
+      </div>
+      <div class="body">
+          <div class="likeul">
+              <div class="input_pay">
+                  <input  type="text">
+              </div>
+          </div>
+          <div class="other_pays">
+              <h4 class="active">其他金额</h4>
+          </div>
+          <div class="pays_btn_box">
+              <div class="pays_btn wx">微信支付</div>
+              <div class="pays_btn zfb">支付宝支付</div>
+          </div>
+      </div>
+  </div>-->
+
+  <div class="reward_window" id="pay-paying" style="display:none">
+      <div class="title clearfix">
+          <span class="fl">打赏红包</span>
+          <a class="fr close_reward_window" href="javascript:;"></a>
+      </div>
+      <div class="body-wxzf">
+          <img src="./images/wxpay_code.png" width="146" height="150"><br />
+          <span class="desc">微信扫一扫立即支付</span>
+      </div>
+      <div class="other_pay_method">
+          <a href="javascript:;" id="changePayMethod_wx">选择其他支付方式></a>
+      </div>
+  </div>
+
+
+  <div class="reward_window" id="pay-after" style="display:none;">
+      <div class="title clearfix">
+          <span class="fl">打赏红包</span>
+          <a class="fr close_reward_window" href="javascript:;"></a>
+      </div>
+      <div class="body-zf_success">
+          <p class="col"> 恭喜您，支付成功～</p>
+          <p>
+              支付遇到问题？换用其他 <a class="col" href="javascript:;">支付方式></a>
+          </p>
+      </div>
+  </div>
+  <div class="reward_window" id="zfb_frame" style="display:none">
+      <div class="title clearfix">
+          <span class="fl">打赏红包</span>
+          <a class="fr close_reward_window" href="javascript:;"></a>
+      </div>
+      <div class="body-zfbzf">
+      </div>
+      <div style="text-align: center">
+          <span class="desc">支付宝扫一扫立即支付</span>
+      </div>
+      <div class="other_pay_method">
+          <a href="javascript:;" id="changePayMethod_zfb">选择其他支付方式></a>
+      </div>
+  </div>
+
+  <!--<div class="reward_window" style="display:none;" id="zfb_frame">
+  <iframe src="./zfbpay.html" id="alipay" frameborder="0" width="330px" height="350px;"></iframe>
+  </div>-->
 <!--新增直播体验区结束-->
 
-
+<div id="payzfb"></div>
 </body>
 </html>
-
+<script type="text/javascript" src="http://static.gensee.com/webcast/static/sdk/js/gssdk.js"></script>
 <script type="text/javascript">var channel = GS.createChannel("videogroup");</script>
 <script type="text/javascript" src="./js/live.d9akd32f2.js"></script>
 <script>
@@ -423,6 +523,7 @@ $(function(){
 
 
        $('.vid_next2').on('click',function() {
+
          var ns2=$('.nextday li').length;
          if(ns2<4){
            $('.livelist.nextday').parents('.livelist-today').find('.vid_prev2').css('backgroundPosition', 'left bottom');
@@ -436,7 +537,6 @@ $(function(){
              $('.livelist.nextday').parents('.livelist-today').find('.vid_prev2').css('backgroundPosition', 'left bottom');
            }
            $('.livelist.nextday ul').animate({top:-nums2*106}, 500);
-           $('.livelist.nextday').parents('.livelist-today').find('.vid_prev2').css('backgroundPosition', 'left bottom');
        });
        $('.vid_prev2').click(function() {
          nums2--;
@@ -468,6 +568,10 @@ $(function(){
         success: function(data){
             var url = $.getUrlParam('liveUrl')||$.getUrlParam('vodUrl')||$('.gs-sdk-widget:first').attr('ownerid');
             if (data.on) {
+              //教师id
+              $('#teacher_id').val(data.on[0].teacher_id)
+              $('#teacher_name').val(data.on[0].teacher_name)
+              $('#plan_id').val(data.on[0].id)
                 $.each(data.on,function(key,value){
                     if (url == value.replay_id)
                     $(".today ul").append("<li class='on_zb' live_type='vod' endtime='"+value.end_time+"'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='?vodUrl="+value.replay_id+"&secret="+value.secret+"'>观看录播</a><p>"+value.title+"</p></li>");
@@ -502,7 +606,6 @@ $(function(){
         url: "./jsonBackNext.php?action=getAll",
         dataType: "json",
         success: function(data){
-          //   console.log( data )
              $.each(data,function(key,value){
                  $(".nextday ul").append("<li class='no_zb' live_type='live' endtime='"+value.end_time+"'><span><em>"+value.start_time+"</em>-"+value.end_time+"</span><a href='javascript:;'>即将开始</a><p>"+value.title+"</p></li>");
              });
@@ -514,3 +617,306 @@ $(function(){
 </script>
 <script type="text/javascript" charset="utf-8" src="http://lead.soperson.com/20001211/10057017.js"></script>
 
+<script>
+  var timer=null,
+    iframe,
+    pay_count,
+    confirmId='',
+    confirmVcode='',
+    wx_pay_url="http://www.hteacher.net/pay/weixin/ega/native1.php",
+    zfb_pay_url='/order/alipayreward/alipayto1.php',
+    wx_createOrder='http://www.hteacher.net/zhuanti/live_plan_front/create_bonus_order.php',
+    wx_confirmOrder='http://www.hteacher.net/zhuanti/live_plan_front/checkout_bonus_order.php',
+    step2_url="http://www.hteacher.net/pay/weixin/ega/getorderstatus1.php";
+  var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+
+  //点击打赏按钮
+  $('.reward_btn.fr').on('click',function(){
+    $('#layer').show();
+    $('#pay_before').show();
+    $('.reward_window .body ul li:last').find('.otherMoney').show().siblings().find('input').val('');
+    $('.reward_window .body ul li:first').addClass('selected');
+    $('.reward_window .body ul li:last').removeClass('selected');
+  })
+  //选择打赏金额
+  $('.reward_window .body ul li').on('click',function(){
+    $(this).addClass('selected').siblings('li').removeClass('selected');
+    if($.trim($(this).text()) == '其他金额'){
+      $('.otherMoney').hide().siblings('div').show();
+      $('.input_pay input').focus();
+    }else{
+      $('.otherMoney').show().siblings('div').hide()
+      $('.input_pay input').val('');
+    }
+  });
+
+  function getQrCode(pay_count,getPayResult,createOrder,sureOrder){
+    $.post(wx_pay_url,{'total_fee':pay_count},function(data){
+      var wxzfSrc = 'http://www.hteacher.net/pay/weixin/ega/'+data.url;
+
+      if( !createOrder(pay_count,data)){
+          alert('参数不正确，请重新输入');
+          $('.reward_window .body ul li:last').find('.otherMoney').show().siblings().find('input').val('');
+          $('.reward_window .body ul li:first').addClass('selected');
+          $('.reward_window .body ul li:last').removeClass('selected');
+          return false;
+      }else{
+          $('.body-wxzf img').attr('src',wxzfSrc);
+          $('#pay-paying').hide().show();
+      }
+      getPayResult(pay_count,data,sureOrder)
+    },'json');
+  }
+
+  function getPayResult(pay_count,data,sureOrder) {
+    clearInterval(timer);
+    timer = setInterval(function () {
+      $.post(step2_url, {'out_trade_no': data.out_trade_no}, function (status) {
+        $('#reward_money').val('');
+        if (status == 'SUCCESS') {
+          clearInterval(timer);
+          sureOrder();
+        }
+      })
+    }, 1000)
+  }
+  function getPayCount(){
+    if($('.reward_window .body ul li').hasClass('selected')){
+      pay_count=$('.reward_window .body ul li.selected').html();
+      if($('.reward_window .body ul li:last').hasClass('selected')){
+        if(reg.test($('#reward_money').val())){
+          if(Number($('#reward_money').val())>0){
+            pay_count=$('#reward_money').val();
+          }else{
+            return false;
+          }
+        }else{
+          $('#reward_money').val('');
+          $('#reward_money').parent().hide().siblings('.otherMoney').show();
+          return false;
+        }
+      }else{
+        pay_count = pay_count.substring(1);
+      }
+      $('.reward_window .body ul li').removeClass('selected');
+      return pay_count;
+    }else{
+      return false;
+    }
+  }
+  function createWxOrder(wx_payMoney,data){
+    if($('#teacher_id').val()){
+        var wxOrderInfos = {
+            'teacher_id': $('#teacher_id').val(),
+            'plan_id'   : $('#plan_id').val(),
+            'out_trade_no':data.out_trade_no,
+            'customer':$('#cookieUserName').val(),
+            'fee'     :wx_payMoney,
+            'pay_type':'wx'
+        };
+        $.post(wx_createOrder,wxOrderInfos,function(infos){
+
+            if(infos.ecode=='0'){
+                confirmId=infos.data.id;
+                confirmVcode=infos.data.vcode;
+            }
+        },'json');
+        return true;
+    }else{
+        return false;
+    }
+
+  }
+  function sureOrder(){
+    $.post(wx_confirmOrder,{'id':confirmId,'vcode':confirmVcode},function(data){
+      if(data.ecode == '0'){
+        clearInterval(timer);
+        $('#pay-paying').hide();
+        $('#pay-after').show();
+        var message = '我认为' + $('#teacher_name').val() + '讲的好赞,打赏了'+pay_count+'元辛苦费';
+        channel.send("submitChat", {
+          "richtext": message
+        });
+        $(".talk_list ul").append("<li><span style='float:left'>我</span>" + message + "</li>");
+        var oH = $(".talk_list ul").height() + $(".talk_list ul").scrollTop();
+        $('.talk_list ul').scrollTop(oH);
+        $("#textarea").html("");
+        setTimeout(function(){
+          $('#pay_before').hide();
+          $('#pay-paying').hide();
+          $('#pay-after').hide();
+          $('#layer').hide()
+        },2000)
+      }
+    },'json')
+  }
+  //微信支付'
+  $('.pays_btn.wx').on('click',function() {
+      clearInterval(timer);
+      var wx_payMoney = getPayCount();
+      if (wx_payMoney) {
+          getQrCode(wx_payMoney, getPayResult, createWxOrder, sureOrder);
+      } else {
+          $('#reward_money').val('').focus();
+          alert('金额输入不合法\n请重新输入')
+      }
+  })
+   // getQrCode(pay_count,getPayResult,createOrder,sureOrder)
+
+
+  //支付宝支付
+  $('.pays_btn.zfb').on('click',function(){
+    clearInterval(timer);
+    var zfb_payMoney = getPayCount();
+    if(zfb_payMoney){
+          var zfb_args={
+            'bankval':'directPay','pay_banka':'a','pay_bankb':'w',
+            'total_fee':zfb_payMoney,'subject':encodeURIComponent('直播打赏')
+          };
+         if(!$('#teacher_id').val()){
+                alert('参数不正确，请重新输入');
+             $('.reward_window .body ul li:last').find('.otherMoney').show().siblings().find('input').val('');
+             $('.reward_window .body ul li:first').addClass('selected');
+             $('.reward_window .body ul li:last').removeClass('selected');
+             return false;
+         }else {
+             $.post(zfb_pay_url, zfb_args, function (data) {
+                 $('#reward_money').val('');
+                 var data = $.parseJSON(data)
+                 var frameText = '<iframe src="./zfbpay.html" id="alipay" frameborder="0" width="160px" height="160px;overflow:" scrolling="no"></iframe>'
+                 $('.body-zfbzf').html(frameText);
+                 iframe = document.getElementById("alipay");
+                 var func = function () {
+                     $('#alipay').contents().find("body").html(data.html_text);
+                     $('#zfb_frame').show();
+                     iframe.onload = iframe.onreadystatechange = null;
+                     $('#alipay').contents().find("form").submit();
+                 };
+                 iframe.onload = iframe.onreadystatechange = func;
+                 createAliOrder(zfb_payMoney, data, getAliPayResult)
+             })
+         }
+    }else{
+         $('#reward_money').val('').focus();
+         alert('金额输入不合法\n请重新输入')
+     }
+  });
+
+
+  function getAliPayResult(id,vcode,zfb_payMoney) {
+      timer = setInterval(function () {
+        isAliPaySuceess(id,vcode,zfb_payMoney,sureAliPay)
+      }, 500)
+  }
+
+
+  function isAliPaySuceess(id,vcode,zfb_payMoney,sureAliPay){
+    try{
+      var trade_no=$('#alipay').contents().find("input[name='trade_no']").val();
+      var out_trade_no=$('#alipay').contents().find("input[name='out_trade_no']").val();
+      var trade_status=$('#alipay').contents().find("input[name='trade_status']").val();
+      var buyer_email=$('#alipay').contents().find("input[name='buyer_email']").val();
+      if(trade_no && out_trade_no && trade_status && buyer_email){
+        clearInterval(timer);
+        sureAliPay(confirmId,confirmVcode,zfb_payMoney,trade_no,buyer_email);
+      }
+    }catch(e){
+    // console.log(e)
+    }
+  }
+
+  function sureAliPay(id,vcode,zfb_payMoney,trade_no,buyer_email){
+    var aliPay_args={
+      'id':id,
+      'vcode':vcode,
+      'third_trade_no':trade_no,
+      'buyer_contact':buyer_email
+    }
+      $.post(wx_confirmOrder,aliPay_args,function(data){
+        if(data.ecode == '0'){
+          clearInterval(timer);
+          $('#pay-paying').hide();
+          $('#zfb_frame').hide();
+          $('.body-zfbzf').html('');
+          $('#pay-after').show();
+          var message = '我认为' + $('#teacher_name').val() + '讲的好赞,打赏了'+zfb_payMoney+'元辛苦费';
+          channel.send("submitChat", {
+            "richtext": message
+          });
+          $(".talk_list ul").append("<li><span style='float:left'>我</span>" + message + "</li>");
+          var oH = $(".talk_list ul").height() + $(".talk_list ul").scrollTop();
+          $('.talk_list ul').scrollTop(oH);
+          $("#textarea").html("");
+          /*setTimeout(function(){*/
+            $('#pay_before').hide();
+            $('#pay-paying').hide();
+            $('#pay-after').hide();
+            $('#layer').hide()
+         /* },200)*/
+        }
+      },'json')
+  }
+  function createAliOrder(zfb_payMoney,data,getAliPayResult){
+        var wxOrderInfos = {
+            'teacher_id': $('#teacher_id').val(),
+            'plan_id'   : $('#plan_id').val(),
+            'out_trade_no':data.out_trade_no,
+            'customer':$('#cookieUserName').val(),
+            'fee'     :zfb_payMoney,
+            'pay_type':'alipay'
+        };
+        $.post(wx_createOrder,wxOrderInfos,function(infos){
+            if(infos.ecode=='0'){
+                confirmId=infos.data.id;
+                confirmVcode=infos.data.vcode;
+                getAliPayResult(confirmId,confirmVcode,zfb_payMoney)
+            }
+        },'json');
+
+  }
+
+  //更改支付方式
+
+
+  $('#changePayMethod_wx').on('click',function(){
+
+
+    clearInterval(timer);
+    pay_count='';
+    confirmId='';
+    confirmVcode='';
+    $('#pay_before').show();
+    $(this).parents('#pay-paying').hide();
+    $('.reward_window .body ul li').removeClass('selected');
+    $('.reward_window .body ul li:last').find('.otherMoney').show().siblings().find('input').val('');
+    $('.reward_window .body ul li:first').addClass('selected');
+
+  });
+
+
+  $('#changePayMethod_zfb').on('click',function(){
+    clearInterval(timer);
+    $('.body-zfbzf').html('');
+    pay_count='';
+    confirmId='';
+    confirmVcode='';
+    $('.reward_window .body ul li').removeClass('selected');
+    $('.reward_window .body ul li:last').find('.otherMoney').show().siblings().find('input').val('');
+    $('.reward_window .body ul li:first').addClass('selected');
+    $('#pay_before').show();
+    $('#zfb_frame').hide();
+  });
+
+
+
+  // 关闭
+  $('.close_reward_window').on('click',function(){
+    $('.body-zfbzf').html('');
+    clearInterval(timer);
+     pay_count='';
+     confirmId='';
+     confirmVcode='';
+    $('#layer').hide();
+    $('.reward_window').hide();
+  })
+</script>

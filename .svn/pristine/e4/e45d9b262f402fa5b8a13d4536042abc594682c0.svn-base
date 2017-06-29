@@ -1,9 +1,86 @@
-﻿$(function () {
+﻿
+function add0(m){return m<10?'0'+m:m }
+function getHM(){
+    var time = new Date();
+    var hours = time.getHours();
+    var minutes = time.getMinutes();
+    return add0(hours)+':'+add0(minutes);
+}
+
+function checkEndTime(endTime){
+    var now=getHM();
+    var end=endTime;
+    if(now>=end){
+        return true;
+    }
+    return false;
+}
+
+var intervalId = null;
+
+var flashObj = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="640" height="360" id="cc_5E946960B809B48A9C33DC5901307461">' +
+  '<param name="movie" value="https://p.bokecc.com/flash/single/1FD0DBA31FA2C2B1_F6E13AEE5F22977E9C33DC5901307461_true_D2BF717CCFB3408C_1/player.swf" />' +
+  '<param name="allowFullScreen" value="true" />' +
+  '<param name="allowScriptAccess" value="always" />' +
+  '<param value="transparent" name="wmode" />' +
+  '<embed src="https://p.bokecc.com/flash/single/1FD0DBA31FA2C2B1_F6E13AEE5F22977E9C33DC5901307461_true_D2BF717CCFB3408C_1/player.swf" width="640" height="360" name="cc_5E946960B809B48A9C33DC5901307461"' +
+  'allowFullScreen="true" wmode="transparent" allowScriptAccess="always" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"/>' +
+  '</object>';
+
+var playerState = "close";
+function changePlayerState(state) {
+  if( state == "playing" ) {
+    if( playerState == "close" ) {
+      $('#livetx_background').css('display','none');
+      $('#liveppt_background').css('display','none');
+     $('#liveppt_background').html('');
+    }
+  }else if( state == "close" ) {
+    if( playerState == "playing") {
+      $('#livetx_background').css('display','block');
+      $('#liveppt_background').css('display','block');
+      $('#liveppt_background').html(flashObj);
+    }
+  }
+  playerState = state;
+}
+
+var v1;
+function on_cc_player_init( vid, objectID ){
+  var player = getSWF( objectID );
+  var config = {
+    on_player_start: "on_v1_player_start",
+    on_player_stop: "on_v1_player_stop",
+  };
+  v1 = player;
+  player.setConfig(config);
+}
+
+function on_v1_player_start(){
+  v1.seek(0);
+}
+
+function on_v1_player_stop(){
+  $('#liveppt_background').html('');
+}
+
+function getSWF( swfID ) {
+  if (window.document[ swfID ]) {
+    return window.document[ swfID ];
+  } else if (navigator.appName.indexOf("Microsoft") == -1) {
+    if (document.embeds && document.embeds[ swfID ]) {
+      return document.embeds[ swfID ];
+    }
+  } else {
+    return document.getElementById( swfID );
+  }
+}
 
 
 
+$(function () {
 
-    var channel = GS.createChannel("videogroup");
+  var channel = GS.createChannel("videogroup");
     //页面左侧/右下角固定定位
     $('.page').width($(window).width());
     $('.page').height($(window).height());
@@ -173,7 +250,7 @@
     channel.bind("onPriChat", function (event) {
         var sender = event.data.sender;
         var sender_richtext = event.data.richtext;
-        sender_richtext = repalceColor(sender_richtext, '#ff8000');        
+        sender_richtext = repalceColor(sender_richtext, '#ff8000');
         $(".talk_list ul").append("<li><span style='float:left'><a href='javascript:;' senderId='" + event.data.senderId + "'>" + sender + "</a>说：</span>&nbsp;" + sender_richtext + "</li>");
         // $(".talk_list ul").scrollTo({
         //     fn: function () {}
@@ -207,13 +284,11 @@
     });
     //发送聊天和在线提问
     $("#chat-submit").click(function () {
-		// console.log($(".talk_list ul").height());
         var data = $("#textarea").html();
         if (data.length != 0) {
             channel.send("submitChat", {
                 "richtext": data //"<img src=\"http://static.gensee.com/webcast/static/emotion/feedback.quickly.png\">",
             });
-            // console.log(data);
 
             $(".talk_list ul").append("<li><span style='float:left'>我 说：</span>&nbsp;" + data + "</li>");
 			  var oH=$(".talk_list ul").height()+$(".talk_list ul").scrollTop();
@@ -310,13 +385,58 @@
     });
     //直播停止
     channel.bind("onStop", function () {
-        //$(".talk_list ul").append("<li><span style='float:left'><a href='javascript:;' senderid='' style='FONT-SIZE: 10pt; FONT-WEIGHT: normal; COLOR: #ff8000; FONT-STYLE: normal' >系统提示</a>：</span>&nbsp;<span style='FONT-SIZE: 10pt; FONT-WEIGHT: normal; COLOR: #ff8000; FONT-STYLE: normal'>直播已结束！ <a href='./index3_lb.php' style='text-decoration:underline;'>点击刷新</a></span></li>");
-        window.location.href = "./index3_lb.php";
+    	console.log('直播停止');
+
+    	changePlayerState('close');
+
+    	if(!checkEndTime($('.livelist ul .on_zb').attr('endtime'))){
+    		intervalId = setInterval(function(){
+    					console.log(intervalId);
+                        if (checkEndTime($('.livelist ul .on_zb').attr('endtime'))) {
+                            window.location.href = "./index3_lb.php";
+                        }
+                    },1000);
+    	}else{
+            setTimeout(window.location.href = "./index3_lb.php",5000);
+    	}
         //$(".topR ul").html("<li>&nbsp;</li><li class='red'>直播已结束</li><li>&nbsp;</li>");
     });
     //直播开启onStart
-    channel.bind("onStart", function () {
-        $(".topR ul").html("<li>&nbsp;</li><li class='green'>直播中......</li><li>&nbsp;</li>");
+    // channel.bind("onStart", function () {
+    // 	console.log('直播开启onStart');
+    // 	console.log(intervalId);
+    // 	clearInterval(intervalId);
+    // 	intervalId = null;
+    // 	$('#livetx_background').css('display','none');
+    // 	$('#liveppt_background').css('display','none');
+    //     // $(".topR ul").html("<li>&nbsp;</li><li class='green'>直播中......</li><li>&nbsp;</li>");
+    // });
+    //直播暂停
+    channel.bind("onPause", function () {
+    	console.log('直播暂停');
+    	console.log('2222');
+
+    	changePlayerState('close');
+
+    	if(!checkEndTime($('.livelist ul .on_zb').attr('endtime'))){
+    		intervalId = setInterval(function(){
+    					console.log(intervalId);
+                        if (checkEndTime($('.livelist ul .on_zb').attr('endtime'))) {
+                            window.location.href = "./index3_lb.php";
+                        }
+                    },1000);
+    	}else{
+            setTimeout(window.location.href = "./index3_lb.php",5000);
+    	}
+
+    });
+    //直播恢复
+    channel.bind("onPlay", function () {
+    	console.log('直播恢复');
+    	console.log(intervalId);
+    	clearInterval(intervalId);
+    	intervalId = null;
+      changePlayerState('playing')
     });
     //收到客户端升级邀请
     channel.bind("onUpgradeRequired", function () {

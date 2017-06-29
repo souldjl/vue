@@ -293,37 +293,28 @@
                 <h3>Ã÷ÈÕÔ¤¸æ</h3>
             </div>
         <div class="livelist-container">
-		<div class="livelist-today">
             <div class="livelist today">
                 <ul>
-                    
+
                 </ul>
             </div>
-            <div class="vidbtn">
-                <span class="vid_prev"></span>
-                <span class="vid_next"></span>
-            </div>
-		</div>
-        <div class="livelist-today" style="display:none;">
-            <div class="livelist nextday">
+            <div class="livelist nextday" style="display:none;">
                 <ul>
-                    
+
                 </ul>
             </div>
-            <div class="vidbtn">
-                <span class="vid_prev"></span>
-                <span class="vid_next"></span>
-            </div>
-        </div>
         </div>
 
-       
+        <div class="vidbtn">
+            <span class="vid_prev"></span>
+            <span class="vid_next"></span>
+        </div>
         </div>
   <script>
       $('.listwrap .clearfix h3').on('click',function(){
         var index= $(this).index();
         $(this).addClass('active').siblings().removeClass('active');
-        $('.livelist-container .livelist-today').hide().eq(index).show();
+        $('.livelist-container .livelist').hide().eq(index).show();
       })
   </script>
     </div>
@@ -357,34 +348,31 @@ $(function(){
         $('.bgCon').fadeIn(500);
     });
 
-  scrollLiveList()
-    function scrollLiveList(){
-      var nums=0;
-      $('.vid_next').on('click',function(event) {
-        var ns=$(this).parents('.livelist-today').find('ul li').length;
-        console.log(ns);
+     var nums=0;
+    $('.vid_next').on('click',function(event) {
+     var ns = $('.livelist-container .livelist ul').css('display','block').children().length;
+  //   var ns=$('.livelist ul li').length;
+     console.log(ns);
         nums++;
         if (nums>ns-4) {nums=ns-4;
-          $('.livelist ul').css('top',-nums*106);
-          $('.vid_next').css('backgroundPosition', 'right top');
-          $('.vid_prev').css('backgroundPosition', 'left bottom');
+            $('.livelist ul').css('top',-nums*106);
+            $('.vid_next').css('backgroundPosition', 'right top');
+            $('.vid_prev').css('backgroundPosition', 'left bottom');
         }
 
         $('.livelist ul').animate({top:-nums*106}, 500);
         $('.vid_prev').css('backgroundPosition', 'left bottom');
-      });
-      $('.vid_prev').click(function(event) {
+    });
+    $('.vid_prev').click(function(event) {
         nums--;
         if (nums<0) {nums=0;
-          $('.livelist ul').css('top',0)
-          $(this).css('backgroundPosition', 'right bottom');
-          $('.vid_next').css('backgroundPosition', 'right top');
+            $('.livelist ul').css('top',0)
+            $(this).css('backgroundPosition', 'right bottom');
+            $('.vid_next').css('backgroundPosition', 'right top');
         }
         $('.livelist ul').animate({top:-nums*106}, 500);
         $('.vid_next').css('backgroundPosition', 'left top');
-      });
-    }
-
+    });
 
     $.getUrlParam = function (name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");

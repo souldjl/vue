@@ -6,11 +6,14 @@ include './db_sqlsrv.php';
 date_default_timezone_set('PRC');
 
 function getAll(){
+
 	$conn = new Database();
 	$time = strtotime(date('Y-m-d',time()))+86400;
 
+//var_dump ( $time );
 	$get_sql = "SELECT * FROM live_plan WHERE date = $time AND type = 1 order by start_time";
 	$data = $conn->select($get_sql,array());
+//var_dump( $data );
 	$arr = array();
 	$time_now = time();
 	if ($data['ecode'] == 0) {
